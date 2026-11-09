@@ -9,7 +9,7 @@ This file defines:
 """
 
 # ---------------------------------------------------------------------
-# Starter word lists
+# Word lists
 # ---------------------------------------------------------------------
 
 POSITIVE_WORDS = [
@@ -23,6 +23,9 @@ POSITIVE_WORDS = [
     "chill",
     "relaxed",
     "amazing",
+    # Part 3 fix: slang + emoji signals the starter list missed
+    "fire",
+    "🔥",
 ]
 
 NEGATIVE_WORDS = [
@@ -36,13 +39,17 @@ NEGATIVE_WORDS = [
     "stressed",
     "hate",
     "boring",
+    # Part 3 fix: slang + emoji signals the starter list missed
+    "trash",
+    "ugh",
+    "💀",
+    "😩",
 ]
 
 # ---------------------------------------------------------------------
-# Starter labeled dataset
+# Labeled dataset
 # ---------------------------------------------------------------------
 
-# Short example posts written as if they were social media updates or messages.
 SAMPLE_POSTS = [
     "I love this class so much",
     "Today was a terrible day",
@@ -52,12 +59,6 @@ SAMPLE_POSTS = [
     "I am not happy about this",
 ]
 
-# Human labels for each post above.
-# Allowed labels in the starter:
-#   - "positive"
-#   - "negative"
-#   - "neutral"
-#   - "mixed"
 TRUE_LABELS = [
     "positive",  # "I love this class so much"
     "negative",  # "Today was a terrible day"
@@ -67,28 +68,23 @@ TRUE_LABELS = [
     "negative",  # "I am not happy about this"
 ]
 
-# TODO: Add 5-10 more posts and labels.
-#
-# Requirements:
-#   - For every new post you add to SAMPLE_POSTS, you must add one
-#     matching label to TRUE_LABELS.
-#   - SAMPLE_POSTS and TRUE_LABELS must always have the same length.
-#   - Include a variety of language styles, such as:
-#       * Slang ("lowkey", "highkey", "no cap")
-#       * Emojis (":)", ":(", "🥲", "😂", "💀")
-#       * Sarcasm ("I absolutely love getting stuck in traffic")
-#       * Ambiguous or mixed feelings
-#
-# Tips:
-#   - Try to create some examples that are hard to label even for you.
-#   - Make a note of any examples that you and a friend might disagree on.
-#     Those "edge cases" are interesting to inspect for both the rule based
-#     and ML models.
-#
-# Example of how you might extend the lists:
-#
-# SAMPLE_POSTS.append("Lowkey stressed but kind of proud of myself")
-# TRUE_LABELS.append("mixed")
-#
-# Remember to keep them aligned:
-#   len(SAMPLE_POSTS) == len(TRUE_LABELS)
+# --- Added posts (Part 1) ---
+# Each post sits next to its label so the two lists can't drift apart.
+NEW_POSTS = [
+    ("Lowkey stressed but kind of proud of myself", "mixed"),
+    ("I absolutely love getting stuck in traffic", "negative"),   # sarcasm
+    ("that concert was fire 🔥🔥 no cap", "positive"),             # slang + emoji
+    ("I'm fine 🙂", "mixed"),                                      # ambiguous
+    ("not bad at all, kinda impressed", "positive"),              # negation
+    ("this update is lowkey trash 💀", "negative"),                # slang
+    ("ugh mondays 😩", "negative"),                                # emoji
+    ("got the job!!! can't stop smiling", "positive"),
+    ("going to the store later", "neutral"),
+]
+
+for post, label in NEW_POSTS:
+    SAMPLE_POSTS.append(post)
+    TRUE_LABELS.append(label)
+
+assert len(SAMPLE_POSTS) == len(TRUE_LABELS), "Posts and labels are out of sync!"
+
